@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>My Trips</title>
+</head>
+
+<body>
+
+    <h1>My Trips ✈️</h1>
+    <div id="trips"></div>
+
+    <script>
+        const trips = JSON.parse(localStorage.getItem("myTrips") || "[]");
+
+        const container = document.getElementById("trips");
+
+        if (trips.length === 0) {
+            container.innerHTML = "<p>No trips saved yet</p>";
+        } else {
+            trips.forEach(trip => {
+                container.innerHTML += `
+      <div style="border:1px solid #ccc; padding:10px; margin:10px;">
+        <h3>${trip.tripData.destination}</h3>
+        <p>From: ${trip.tripData.start_location}</p>
+        <p>Days: ${trip.tripData.days}</p>
+        <p>Budget: ₹${trip.tripData.budget}</p>
+      </div>
+    `;
+            });
+        }
+    </script>
+
+</body>
+
+</html>

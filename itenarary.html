@@ -1,0 +1,33 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Itinerary</title>
+</head>
+<body>
+
+<h1>Your Travel Plan</h1>
+<div id="itinerary"></div>
+
+<script>
+  const data = JSON.parse(localStorage.getItem("planData"));
+
+  const container = document.getElementById("itinerary");
+
+  let html = "";
+
+  data.itinerary.forEach(day => {
+    html += `
+      <h3>Day ${day.day}</h3>
+      <p>Morning: ${day.plan.morning}</p>
+      <p>Afternoon: ${day.plan.afternoon}</p>
+      <p>Evening: ${day.plan.evening}</p>
+      <hr/>
+    `;
+  });
+
+  container.innerHTML = html;
+</script>
+
+</body>
+</html>

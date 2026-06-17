@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>About Us - SmartVihar Planner</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f0f8ff;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    /* Hero Section */
+    .hero {
+      width: 100%;
+      height: 400px;
+      background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e') center/cover no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      color: white;
+      text-align: center;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+    }
+
+    .hero h1 {
+      position: relative;
+      font-size: 3rem;
+      z-index: 1;
+      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.6);
+    }
+
+    /* Services Section */
+    .services {
+      max-width: 1000px;
+      margin: 50px 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      text-align: center;
+    }
+
+    .service-card {
+      background: white;
+      border-radius: 15px;
+      padding: 30px 20px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .service-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .service-card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 15px;
+      color: #34495e;
+    }
+
+    .service-card p {
+      font-size: 1rem;
+      color: #555;
+      line-height: 1.6;
+    }
+
+    /* Back Button */
+    .back-btn {
+      margin: 50px 0 20px;
+      padding: 15px 30px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 10px;
+      background: #3498db;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .back-btn:hover {
+      background: #2980b9;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #555;
+      font-size: 0.9rem;
+      width: 100%;
+      background: #f0f8ff;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>About SmartVihar Planner</h1>
+  </section>
+
+  <!-- Services / What We Do -->
+  <section class="services">
+    <div class="service-card">
+      <h3>Personalized Itineraries</h3>
+      <p>We create customized travel plans tailored to your preferences, interests, and schedule, so you get the best
+        experience possible.</p>
+    </div>
+
+    <div class="service-card">
+      <h3>Hidden Gems Discovery</h3>
+      <p>Explore lesser-known destinations and offbeat attractions across India that give you a unique travel experience
+        away from the crowds.</p>
+    </div>
+
+    <div class="service-card">
+      <h3>Monthly Travel Recommendations</h3>
+      <p>We provide month-wise travel suggestions for the best destinations to visit based on weather, festivals, and
+        local experiences.</p>
+    </div>
+
+    <div class="service-card">
+      <h3>Expert Travel Guidance</h3>
+      <p>From transport and accommodation to local tips, our experts guide you every step of the way to make your trip
+        smooth and enjoyable.</p>
+    </div>
+
+    <div class="service-card">
+      <h3>Memorable Experiences</h3>
+      <p>We curate activities and experiences like cultural tours, trekking, culinary adventures, and more to create
+        unforgettable memories.</p>
+    </div>
+
+    <div class="service-card">
+      <h3>Seamless Booking Assistance</h3>
+      <p>SmartVihar Planner helps with bookings for flights, stays, and activities so that your trip is hassle-free from
+        start
+        to finish.</p>
+    </div>
+  </section>
+
+  <!-- Back Button -->
+  <button class="back-btn" onclick="window.location.href='index.html'">Back to Home</button>
+
+  <footer>
+    &copy; 2026 SmartVihar Planner. All rights reserved.
+  </footer>
+
+</body>
+
+</html>

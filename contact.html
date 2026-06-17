@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Contact Us - SmartVihar Planner</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* RESET */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* HEADER */
+    header {
+      margin-top: 20px;
+      margin-bottom: 30px;
+    }
+
+    header h1 {
+      font-size: 2.8rem;
+      color: #fff;
+      letter-spacing: 1px;
+      text-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    /* MAIN CARD */
+    .contact-container {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(15px);
+      border-radius: 25px;
+      padding: 45px 35px;
+      width: 90%;
+      max-width: 750px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      animation: fadeIn 1s ease;
+    }
+
+    .contact-container h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #fff;
+      font-weight: 600;
+    }
+
+    /* FORM */
+    .contact-container form {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .contact-container input,
+    .contact-container textarea {
+      padding: 15px 18px;
+      border-radius: 12px;
+      border: none;
+      outline: none;
+      font-size: 1rem;
+      background: rgba(255, 255, 255, 0.85);
+      transition: 0.3s;
+    }
+
+    .contact-container input:focus,
+    .contact-container textarea:focus {
+      transform: scale(1.03);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    .contact-container textarea {
+      resize: none;
+      min-height: 130px;
+    }
+
+    /* BUTTON */
+    .contact-container button {
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(45deg, #ff7e5f, #feb47b);
+      color: white;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .contact-container button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    /* CONTACT INFO */
+    .contact-info {
+      margin-top: 40px;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .info-box {
+      flex: 1 1 180px;
+      background: rgba(255, 255, 255, 0.85);
+      padding: 18px;
+      border-radius: 15px;
+      text-align: center;
+      transition: 0.3s;
+    }
+
+    .info-box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .info-box h3 {
+      margin-bottom: 8px;
+      color: #ff7e5f;
+    }
+
+    .info-box p {
+      color: #555;
+    }
+
+    /* BACK BUTTON */
+    .back-btn {
+      margin: 35px 0 15px;
+      padding: 14px 28px;
+      border: none;
+      border-radius: 30px;
+      background: #2c3e50;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .back-btn:hover {
+      background: #1a252f;
+      transform: scale(1.05);
+    }
+
+    /* FOOTER */
+    footer {
+      color: white;
+      margin-top: auto;
+      padding: 15px;
+      font-size: 0.9rem;
+    }
+
+    /* ANIMATION */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>Contact SmartVihar Planner</h1>
+  </header>
+
+  <div class="contact-container">
+    <h2>We'd Love to Hear From You!</h2>
+    <form id="contactForm">
+      <input type="text" id="name" placeholder="Your Name" required>
+      <input type="email" id="email" placeholder="Your Email" required>
+      <input type="text" id="subject" placeholder="Subject" required>
+      <textarea id="message" placeholder="Your Message" required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+
+    <div class="contact-info">
+      <div class="info-box">
+        <h3>📞 Phone</h3>
+        <p>+91 7995423864</p>
+      </div>
+      <div class="info-box">
+        <h3>📧 Email</h3>
+        <p>yamunamediga@gmail.com</p>
+      </div>
+      <div class="info-box">
+        <h3>📍 Location</h3>
+        <p>Hyderabad, India</p>
+      </div>
+    </div>
+  </div>
+
+  <button class="back-btn" onclick="window.location.href='index.html'">Back to Home</button>
+
+  <footer>
+    &copy; 2026 SmartVihar Planner. All rights reserved.
+  </footer>
+
+  <script>
+    const BASE_URL = "http://localhost:5000";
+    document.getElementById("contactForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const formData = {
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        subject: document.getElementById("subject").value,
+        message: document.getElementById("message").value
+      };
+
+      try {
+        const response = await fetch(`${BASE_URL}/api/contact`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(formData)
+        });
+
+        const data = await response.json();
+        alert("Message sent successfully 💌");
+        document.getElementById("contactForm").reset();
+
+      } catch (error) {
+        alert("Server error ❌ Make sure backend is running");
+      }
+    });
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Travel Planner</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f0f8ff;
+      color: #333;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #0077b6;
+      color: white;
+      padding: 1rem;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+    }
+
+    .auth-buttons button {
+      margin-left: 10px;
+      padding: 8px 12px;
+      border: none;
+      background: #023e8a;
+      color: white;
+      cursor: pointer;
+    }
+
+    .auth-buttons button:hover {
+      background: #03045e;
+    }
+
+    .quote {
+      text-align: center;
+      margin: 50px 0;
+      font-size: 1.5rem;
+      font-style: italic;
+    }
+
+    .create-plan {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    #createPlanBtn {
+      padding: 15px 30px;
+      font-size: 1.2rem;
+      background: #0077b6;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    #createPlanBtn:hover {
+      background: #023e8a;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #007bff;
+      /* blue */
+      color: white;
+      text-decoration: none;
+      /* remove underline */
+      border-radius: 5px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #0056b3;
+      /* darker blue on hover */
+    }
+
+    .overlay-text h1 {
+      font-size: 60px;
+      font-weight: bold;
+      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .overlay-text p {
+      font-size: 22px;
+      margin-bottom: 20px;
+    }
+
+    .overlay-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 30px;
+      font-weight: bold;
+      font-family: "Dancing Script MT", cursive;
+      text-align: center;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+      /* makes text stand out */
+      z-index: 2;
+    }
+
+    .background-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 110%;
+      overflow: hidden;
+      z-index: -1;
+      padding: 40px 40px;
+    }
+
+    .background-video video {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      transform: translate(-50%, -50%);
+      object-fit: cover;
+    }
+
+    .logo img {
+      height: 50px;
+      width: auto;
+      display: block;
+    }
+
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 40px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <img src="videos/logo.png" alt="SmartVihar Planner Logo">
+    </div>
+    <nav>
+      <ul>
+        <li><a href="about.html">About</a></li>
+        <li><a href="gallery.html">Our Gallery</a></li>
+        <li><a href="reviews.html">Reviews</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+        <!-- <li><a href="/mytrip.html">My Trips</a></li>-->
+
+      </ul>
+    </nav>
+    <div class="auth-buttons" style="position:relative; margin-right:20px;">
+
+      <!-- Login / Signup Buttons -->
+      <div id="authButtons">
+        <a href="login.html"><button>Login</button></a>
+        <a href="signup.html"><button>Signup</button></a>
+      </div>
+
+      <!-- Profile Section -->
+      <div id="profileSection" style="display:none; position:absolute; right:0; top:-5px;">
+
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" id="profileIcon"
+          style="width:40px; cursor:pointer; border-radius:50%;">
+
+        <div id="profileDropdown" style="
+        display:none;
+        position:absolute;
+        right:0;
+        top:50px;
+        background:white;
+        padding:15px;
+        width:220px;
+        border-radius:10px;
+        box-shadow:0 5px 20px rgba(0,0,0,0.2);
+        text-align:left;
+        color:black;
+    ">
+          <p><b id="profileName"></b></p>
+          <p id="profileEmail" style="font-size:14px;color:gray;"></p>
+          <hr>
+          <button onclick="logoutUser()"
+            style="background:#ff4d4d;color:white;border:none;padding:8px 12px;border-radius:6px;cursor:pointer;">
+            Logout
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!--background video-->
+  <div class="background-video">
+    <video autoplay muted loop>
+      <source src="videos/startingvideo.mp4" type="video/mp4">
+      <!--<source src="C:\Users\yamun\OneDrive\Desktop\smart_travel\startingvideo.mp4" type="video/mp4">-->
+      Your browser does not support the video tag.
+    </video>
+  </div>
+  <div class="overlay-text">
+    <p style="font-size:40px"><i>Plan your trip with us</i></p>
+
+    <!-- Create Plan Button -->
+    <section class="create-plan">
+      <a href="create-plan.html">
+        <button id="createPlanBtn">Plan Trip</button>
+      </a>
+    </section>
+
+  </div>
+
+
+
+  <script src="script.js"></script>
+</body>
+
+</html>

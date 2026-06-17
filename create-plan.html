@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Smart Traveller</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    * {
+      box-sizing: border-box
+    }
+
+    /* 👗 Outfit Pinterest Cards */
+    .outfit-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-top: 10px;
+    }
+
+    .outfit-card {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+      transition: 0.3s;
+    }
+
+    .outfit-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .outfit-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .outfit-card p {
+      padding: 8px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .outfit-box {
+      background: #f4f7ff;
+      padding: 12px;
+      border-radius: 12px;
+      margin: 12px 0;
+      border-left: 4px solid #6c63ff;
+    }
+
+    .outfit-box h4 {
+      margin: 0 0 8px 0;
+      color: #333;
+    }
+
+    body {
+      font-family: Poppins, sans-serif;
+      background: linear-gradient(135deg, #eef2ff, #fdfbff);
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Header */
+    header {
+      text-align: center;
+      padding: 40px 20px 10px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 42px;
+      color: #333;
+    }
+
+    header p {
+      color: #666;
+    }
+
+    /* Progress bar */
+    .progress {
+      width: 320px;
+      height: 8px;
+      background: #e6e8ff;
+      border-radius: 20px;
+      margin: 20px auto;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 50%;
+      background: linear-gradient(90deg, #6c63ff, #5a54e6);
+      transition: 0.4s;
+    }
+
+    /* Card */
+    .card {
+      width: 380px;
+      margin: 20px auto;
+      padding: 30px;
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.85);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      animation: fadeIn 0.6s ease;
+    }
+
+    .hidden {
+      display: none
+    }
+
+    /* Inputs */
+    .input-group {
+      text-align: left;
+      margin: 15px 0;
+    }
+
+    .input-group label {
+      font-size: 13px;
+      color: #555;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid #ddd;
+      margin-top: 5px;
+      font-size: 14px;
+      background: #f9faff;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #6c63ff;
+      box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.15);
+    }
+
+    /* Buttons */
+    button {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #6c63ff, #5a54e6);
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 15px;
+      transition: 0.3s;
+    }
+
+    .result-card button {
+      width: auto;
+      padding: 12px 18px;
+      margin-bottom: 15px;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 25px rgba(108, 99, 255, 0.4);
+    }
+
+    /* Transport grid */
+    .transport-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .transport-btn {
+      background: white;
+      color: #333;
+      border: 2px solid #eee;
+      font-size: 16px;
+      padding: 18px;
+    }
+
+    .transport-btn:hover {
+      border-color: #6c63ff;
+      color: #6c63ff;
+    }
+
+    /* Result */
+    #result {
+      max-width: 650px;
+      margin: 30px auto;
+    }
+
+    .result-card {
+      background: white;
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin: 20px 0;
+    }
+
+    .photo-grid img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 12px;
+    }
+
+    /* LOADER */
+    .loader-container {
+      text-align: center;
+      padding: 40px 0;
+    }
+
+    .spinner {
+      width: 55px;
+      height: 55px;
+      border: 6px solid #e6e8ff;
+      border-top: 6px solid #6c63ff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+
+    .loading-text {
+      font-size: 18px;
+      color: #555;
+      font-weight: 600;
+      animation: pulse 1.5s infinite;
+    }
+
+    /* HOTEL CARD */
+    /* HOTEL CARD WITH IMAGE */
+    .hotel-card {
+      display: flex;
+      gap: 18px;
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+      margin: 18px 0;
+    }
+
+    .hotel-img {
+      width: 220px;
+      height: 160px;
+      object-fit: cover;
+    }
+
+    .hotel-info {
+      padding: 12px;
+    }
+
+    .hotel-info h4 {
+      margin: 0;
+      color: #333;
+    }
+
+    .hotel-price {
+      color: #1cc88a;
+      font-weight: bold;
+      margin: 6px 0;
+    }
+
+    .hotel-card h4 {
+      margin: 0;
+      color: #333;
+    }
+
+    .hotel-price {
+      color: #1cc88a;
+      font-weight: bold;
+      margin-top: 5px;
+    }
+
+    .budget-box {
+      background: #fff7e6;
+      padding: 12px;
+      border-radius: 12px;
+      margin: 15px 0;
+      font-weight: 600;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes pulse {
+      0% {
+        opacity: 0.4;
+      }
+
+      50% {
+        opacity: 1;
+      }
+
+      100% {
+        opacity: 0.4;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>SmartVihar Planner ✈️</h1>
+    <p>Plan your perfect trip in seconds</p>
+  </header>
+
+  <div class="progress">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+
+  <!-- STEP 1 -->
+  <div id="step1" class="card">
+    <h2>Trip Details</h2>
+
+    <div class="input-group">
+      <label>Starting Location</label>
+      <input id="start" placeholder="Eg: Hyderabad">
+    </div>
+
+    <div class="input-group">
+      <label>Destination</label>
+      <input id="destination" placeholder="Eg: Goa">
+    </div>
+
+    <div class="input-group">
+      <label>Travel Days</label>
+      <input type="number" id="days" placeholder="Eg: 4">
+    </div>
+
+    <div class="input-group">
+      <label>Number of People</label>
+      <input type="number" id="people" placeholder="Eg: 2">
+    </div>
+
+    <div class="input-group">
+      <label>Total Budget (₹)</label>
+      <input type="number" id="budget" placeholder="Eg: 20000">
+    </div>
+
+    <button onclick="goToStep2()">Next → Choose Transport</button>
+  </div>
+
+  <!-- STEP 2 -->
+  <div id="step2" class="card hidden">
+    <h2>Select Transport</h2>
+
+    <div class="transport-grid" id="transportOptions"></div>
+  </div>
+
+  <div id="result"></div>
+
+  <script>
+    let tripData = {};
+    let latestItinerary = null;   // ⭐ ADD THIS LINE
+
+    // 🏨 Fetch hotel image from Unsplash
+
+
+    const step1 = document.getElementById("step1");
+    const step2 = document.getElementById("step2");
+    const progressBar = document.getElementById("progressBar");
+    const result = document.getElementById("result");
+
+    function goToStep2() {
+      tripData.start_location = document.getElementById("start").value;
+      tripData.destination = document.getElementById("destination").value;
+      tripData.days = document.getElementById("days").value;
+      tripData.people = document.getElementById("people").value;
+      tripData.budget = document.getElementById("budget").value;
+
+      if (
+        !tripData.start_location ||
+        !tripData.destination ||
+        !tripData.days ||
+        !tripData.people ||
+        !tripData.budget
+      ) {
+        alert("Please fill all fields");
+        return;
+      }
+
+      step1.classList.add("hidden");
+      step2.classList.remove("hidden");
+      progressBar.style.width = "100%";
+
+      generateTransportOptions();
+    }
+    function generateTransportOptions() {
+      const container = document.getElementById("transportOptions");
+      container.innerHTML = "";
+
+      const budgetPerPerson = tripData.budget / tripData.people;
+      let options = [];
+
+      if (budgetPerPerson < 5000) {
+        options = ["bus"];
+      }
+      else if (budgetPerPerson < 10000) {
+        options = ["bus", "train"];
+      }
+      else if (budgetPerPerson < 20000) {
+        options = ["train", "bus", "car"];
+      }
+      else {
+        options = ["flight", "train", "car"];
+      }
+
+      const transportIcons = {
+        flight: "✈️ Flight",
+        train: "🚆 Train",
+        bus: "🚌 Bus",
+        car: "🚗 Car"
+      };
+
+      options.forEach(type => {
+        const btn = document.createElement("button");
+        btn.className = "transport-btn";
+        btn.innerHTML = transportIcons[type];
+        btn.onclick = () => selectTransport(type);
+        container.appendChild(btn);
+      });
+    }
+    function getLocalOutfitImage(places, timeOfDay) {
+
+      const text = places.map(p => p.name.toLowerCase()).join(" ");
+
+      // 🌊 BEACH
+      if (text.includes("beach") || text.includes("island") || text.includes("sea")) {
+        if (timeOfDay === "morning") return "outfit-images/morning-beach.png";
+        if (timeOfDay === "afternoon") return "outfit-images/afternoon-beach.png";
+        return "outfit-images/evening-beach.png";
+      }
+
+      // 🏔 HILL STATION
+      if (text.includes("hill") || text.includes("mountain") || text.includes("manali") || text.includes("ooty")) {
+        if (timeOfDay === "morning") return "outfit-images/morning-hill.png";
+        if (timeOfDay === "afternoon") return "outfit-images/afternoon-hill.png";
+        return "outfit-images/evening-hill.png";
+      }
+
+      // 🛕 TEMPLE / CULTURE
+      if (text.includes("temple") || text.includes("religious")) {
+        return "outfit-images/temple.png";
+      }
+
+      // 🏙 DEFAULT CITY
+      if (timeOfDay === "morning") return "outfit-images/morning-casual.png";
+      if (timeOfDay === "afternoon") return "outfit-images/afternoon-city.png";
+      return "outfit-images/evening-city.png";
+    }
+
+    function getOutfitSuggestion(places, timeOfDay) {
+
+      const text = places.map(p => p.name.toLowerCase()).join(" ");
+
+      // 🌊 Beach / water
+      if (text.includes("beach") || text.includes("island") || text.includes("sea")) {
+        if (timeOfDay === "morning") return "Light cotton wear + sunglasses 🕶️";
+        if (timeOfDay === "afternoon") return "Beachwear / shorts + hat 🧢";
+        return "Casual comfy dress / shirt + sandals 👡";
+      }
+
+      // 🏔 Hill station
+      if (text.includes("hill") || text.includes("mountain") || text.includes("ooty") || text.includes("manali")) {
+        if (timeOfDay === "morning") return "Light jacket / hoodie 🧥";
+        if (timeOfDay === "afternoon") return "Layered outfit + jeans 👖";
+        return "Warm jacket + shoes 🥾";
+      }
+
+      // 🛕 Temple / cultural
+      if (text.includes("temple") || text.includes("religious") || text.includes("varanasi")) {
+        return "Modest traditional wear 👗 / covered shoulders / ethnic outfit";
+      }
+
+      // 🏙 City default
+      if (timeOfDay === "morning") return "Casual t-shirt + jeans 👕";
+      if (timeOfDay === "afternoon") return "Light breathable outfit 👟";
+      return "Comfortable relaxed wear 🧥";
+    }
+
+
+
+    //select transport function 
+
+    async function selectTransport(type) {
+      tripData.transport = type;
+
+      result.innerHTML = `
+  <div class="loader-container">
+    <div class="spinner"></div>
+    <div class="loading-text">
+      ✨ Building your smart itinerary...
+    </div>
+  </div>
+`;
+
+      try {
+        // =========================
+        // 1️⃣ SAVE TRIP
+        // =========================
+        await fetch("http://localhost:5000/api/save-trip", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(tripData),
+        });
+
+        // =========================
+        // 2️⃣ FETCH PHOTOS (SAFE)
+        // =========================
+        const photoRes = await fetch(
+          `http://localhost:5000/api/photos/${tripData.destination}`
+        );
+
+        const photoText = await photoRes.text();
+
+        let photoData;
+        try {
+          photoData = JSON.parse(photoText);
+        } catch (e) {
+          console.error("PHOTO PARSE ERROR:", photoText);
+          throw new Error("Failed to load images from server");
+        }
+
+        const photos = photoData.images || [];
+
+
+
+
+        // =========================
+        // 3️⃣ GENERATE AI ITINERARY
+        // =========================
+        const aiRes = await fetch("http://localhost:5000/generate-itinerary", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            start_location: tripData.start_location,
+            destination: tripData.destination,
+            days: tripData.days,
+            budget: tripData.budget,
+            people: tripData.people,
+            transport: tripData.transport,
+            interests: "food, sightseeing, culture"
+          }),
+        });
+
+        const aiData = await aiRes.json();
+        latestItinerary = aiData;
+        localStorage.setItem("myTrips", JSON.stringify(
+          JSON.parse(localStorage.getItem("myTrips") || "[]").concat({
+            id: Date.now(),
+            tripData,
+            itinerary: aiData
+          })
+        ));
+        console.log("AI DATA:", aiData);
+
+
+        if (!aiData.days || !Array.isArray(aiData.days)) {
+          throw new Error("AI did not return itinerary properly");
+        }
+
+        let itineraryHTML = `
+
+<div class="budget-box">
+💰 Total Budget: ₹${aiData.totalBudget} <br>
+📅 Daily Budget: ₹${aiData.dailyBudget}
+</div>
+
+`;
+
+
+        for (const day of aiData.days) {
+
+          // 👗 fetch outfit images
+          const morningImg = getLocalOutfitImage(day.morning || [], "morning");
+          const afternoonImg = getLocalOutfitImage(day.afternoon || [], "afternoon");
+          const eveningImg = getLocalOutfitImage(day.evening || [], "evening");
+
+          // 👗 get outfit text
+          const morningOutfit = getOutfitSuggestion(day.morning || [], "morning");
+          const afternoonOutfit = getOutfitSuggestion(day.afternoon || [], "afternoon");
+          const eveningOutfit = getOutfitSuggestion(day.evening || [], "evening");
+
+          itineraryHTML += `
+  <div class="day-block">
+    <h3>📅 Day ${day.day}</h3>
+
+    <div class="budget-box">
+      💸 Estimated Spend: ₹${day.estimatedDailyCost}<br>
+      💰 Remaining Budget: ₹${day.remainingBudget}
+    </div>
+
+    <div class="outfit-box">
+      <h4>👗 Outfit Suggestions</h4>
+
+      <div class="outfit-grid">
+
+       <div class="outfit-card">
+ <img src="${morningImg}">
+  <p>🌅 ${morningOutfit}</p>
+</div>
+
+<div class="outfit-card">
+ <img src="${afternoonImg}">
+  <p>☀️ ${afternoonOutfit}</p>
+</div>
+
+<div class="outfit-card">
+ <img src="${eveningImg}">
+  <p>🌙 ${eveningOutfit}</p>
+</div>
+
+      </div>
+    </div>
+  `;
+
+          // 🌅 MORNING
+          itineraryHTML += `<h4>🌅 Morning</h4><ul>`;
+          (day.morning || []).forEach(place => {
+            itineraryHTML += `<li><b>${place.name}</b><br>${place.description}</li>`;
+          });
+          itineraryHTML += `</ul>`;
+
+          // ☀️ AFTERNOON
+          itineraryHTML += `<h4>☀️ Afternoon</h4><ul>`;
+          (day.afternoon || []).forEach(place => {
+            itineraryHTML += `<li><b>${place.name}</b><br>${place.description}</li>`;
+          });
+          itineraryHTML += `</ul>`;
+
+          // 🌙 EVENING
+          itineraryHTML += `<h4>🌙 Evening</h4><ul>`;
+          (day.evening || []).forEach(place => {
+            itineraryHTML += `<li><b>${place.name}</b><br>${place.description}</li>`;
+          });
+          itineraryHTML += `</ul></div><hr>`;
+        }
+        // =========================
+        // 4️⃣ SHOW RESULT
+        // =========================
+        result.innerHTML = `
+  <div class="result-card" id="itinerary-content">
+    <h2>${tripData.destination} Travel Guide 🌍</h2>
+
+    <button onclick="downloadPDF()">⬇️ Download Itinerary</button>
+
+    <div class="photo-grid">
+      ${photos.map(p => `<img src="${p.url}" alt="image"/>`).join("")}
+    </div>
+
+    <h3>Your AI Travel Plan ✨</h3>
+    ${itineraryHTML}
+  </div>
+`;
+      } catch (err) {
+        console.error("FULL FRONTEND ERROR:", err);
+        result.innerHTML = `<p style="color:red">❌ ${err.message}</p>`;
+      }
+
+    }
+
+    // convert image URL -> base64 (required for PDF)
+    async function loadImageAsBase64(url) {
+      const res = await fetch(url);
+      const blob = await res.blob();
+
+      return new Promise(resolve => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.readAsDataURL(blob);
+      });
+    }
+
+    function cleanText(text) {
+      return String(text)
+        .replace(/[^\x00-\x7F]/g, "")   // removes broken unicode like Ø=ÜÅ
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    async function getSafeImage(url) {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.crossOrigin = "anonymous"; // IMPORTANT for Unsplash
+        img.onload = () => resolve(img);
+        img.onerror = () => resolve(null);
+        img.src = url;
+      });
+    }
+    async function downloadPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      const pageWidth = doc.internal.pageSize.getWidth();
+      let y = 20;
+
+      // =========================
+      // IMAGE COLLECTION (IMPORTANT)
+      // =========================
+      const imgTags = document.querySelectorAll(".photo-grid img");
+      let images = [];
+
+      for (let img of imgTags) {
+        try {
+          const tempImg = new Image();
+          tempImg.crossOrigin = "anonymous";
+          tempImg.src = img.src;
+
+          await new Promise((resolve) => {
+            tempImg.onload = resolve;
+            tempImg.onerror = resolve;
+          });
+
+          const canvas = document.createElement("canvas");
+          const ctx = canvas.getContext("2d");
+
+          canvas.width = tempImg.width;
+          canvas.height = tempImg.height;
+
+          ctx.drawImage(tempImg, 0, 0);
+
+          images.push(canvas.toDataURL("image/jpeg", 0.9));
+        } catch (err) {
+          console.log("Image skipped");
+        }
+      }
+
+      // =========================
+      // COVER HEADER (MakeMyTrip style)
+      // =========================
+      if (images[0]) {
+        doc.addImage(images[0], "JPEG", 0, 0, pageWidth, 80);
+      }
+
+      doc.setFillColor(108, 99, 255);
+      doc.rect(0, 80, pageWidth, 25, "F");
+
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(18);
+      doc.text("SmartVihar Planner Itinerary", 15, 95);
+
+      doc.setFontSize(11);
+      doc.text(
+        `${tripData.destination} • ${tripData.days} Days Trip`,
+        15,
+        103
+      );
+
+      doc.setTextColor(40, 40, 40);
+      y = 115;
+
+      // =========================
+      // TRIP SUMMARY CARD
+      // =========================
+      doc.setFillColor(245, 247, 255);
+      doc.roundedRect(10, y - 10, pageWidth - 20, 30, 5, 5, "F");
+
+      doc.setFontSize(11);
+      doc.text(`From: ${cleanText(tripData.start_location)}`, 15, y);
+      doc.text(`Budget: ₹${tripData.budget}`, 15, y + 8);
+      doc.text(`Transport: ${tripData.transport}`, 15, y + 16);
+
+      y += 40;
+
+      // =========================
+      // ITINERARY (DAY WISE)
+      // =========================
+      const days = document.querySelectorAll("#itinerary-content h3");
+
+      for (let i = 0; i < days.length; i++) {
+        if (y > 240) {
+          doc.addPage();
+          y = 20;
+        }
+
+        // Day header
+        doc.setFillColor(108, 99, 255);
+        doc.roundedRect(10, y, pageWidth - 20, 10, 3, 3, "F");
+
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(11);
+        doc.text(cleanText(days[i].innerText), 15, y + 7);
+
+        y += 15;
+
+        // =========================
+        // DAY IMAGE (NEW PART)
+        // =========================
+        if (images[i]) {
+          doc.addImage(images[i], "JPEG", 10, y, pageWidth - 20, 50);
+          y += 55;
+        }
+
+        // =========================
+        // CONTENT BOX
+        // =========================
+        doc.setFillColor(250, 250, 250);
+        doc.roundedRect(10, y, pageWidth - 20, 30, 5, 5, "F");
+
+        doc.setTextColor(40, 40, 40);
+        doc.setFontSize(10);
+
+        const items = days[i].parentElement.querySelectorAll("li");
+
+        doc.setFontSize(10);
+
+        let innerY = y + 8;
+
+        items.forEach((li) => {
+          const text = cleanText(li.innerText);
+
+          const shortText =
+            text.length > 80 ? text.substring(0, 80) + "..." : text;
+
+          // 🚨 PAGE BREAK CHECK (IMPORTANT FIX)
+          if (innerY > 270) {
+            doc.addPage();
+            innerY = 20;
+          }
+
+          doc.text(`• ${shortText}`, 15, innerY);
+
+          innerY += 6;
+        });
+
+        y = innerY + 10;
+      }
+
+      // =========================
+      // FOOTER
+      // =========================
+      const pages = doc.getNumberOfPages();
+
+      for (let i = 1; i <= pages; i++) {
+        doc.setPage(i);
+
+        doc.setFontSize(9);
+        doc.setTextColor(150);
+
+        doc.text("Generated by SmartVihar Planner AI ", 15, 290);
+        doc.text(`Page ${i} of ${pages}`, pageWidth - 30, 290);
+      }
+
+      doc.save("SmartViharPlanner-Itinerary.pdf");
+    }
+  </script>
+</body>
+
+</html>

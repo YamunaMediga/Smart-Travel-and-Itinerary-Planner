@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Hidden Gems & Monthly Travel - SmartVihar Planner</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: #f0f8ff;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    /* Heading with background image */
+    h1 {
+      width: 100%;
+      text-align: center;
+      font-size: 3rem;
+      color: #fff;
+      padding: 80px 20px;
+      background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1470&q=80') no-repeat center center;
+      background-size: cover;
+      position: relative;
+      margin-top: 0px;
+      margin-bottom: 40px;
+      box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.4);
+      /* dark overlay for readability */
+    }
+
+    h1::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.3);
+      /* optional extra overlay */
+    }
+
+    h1 span {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Other styles */
+    h2 {
+      text-align: center;
+      margin: 20px 0;
+      color: #2c3e50;
+    }
+
+    .card-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      width: 90%;
+      max-width: 1200px;
+      margin-top: 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+      background-color: burlywood;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .card-content {
+      padding: 15px;
+    }
+
+    .card-content h3 {
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+      color: #34495e;
+    }
+
+    .card-content p {
+      font-size: 0.95rem;
+      color: #555;
+      line-height: 1.4;
+    }
+
+    .back-btn {
+      margin: 50px 0 20px;
+      padding: 15px 30px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 10px;
+      background: #3498db;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .back-btn:hover {
+      background: #2980b9;
+    }
+
+    /* Feature Cards */
+    #feature-cards .card {
+      background: whitesmoke;
+      color: white;
+      height: 250px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.2rem;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+      cursor: pointer;
+    }
+
+    #feature-cards .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+      background: whitesmoke;
+    }
+
+    #feature-cards .card-content h3 {
+      font-size: 1.6rem;
+      margin-bottom: 10px;
+    }
+
+    #feature-cards .card-content p {
+      font-size: 1.1rem;
+      text-align: center;
+    }
+
+    /* POPUP BACKGROUND OVERLAY */
+    .place-card {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+
+    /* CARD BOX */
+    .place-card .card-content {
+      padding: 18px;
+    }
+
+    .place-card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+    }
+
+    .place-card>div {
+      background: white;
+      width: 420px;
+      border-radius: 18px;
+      overflow: hidden;
+      animation: pop 0.4s ease;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @keyframes pop {
+      from {
+        transform: scale(0.7);
+        opacity: 0;
+      }
+
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1><span id="main-heading">Our Gallery</span></h1>
+
+  <!-- Feature Cards -->
+  <div class="card-container" id="feature-cards">
+    <div class="card" onclick="showCategory('hidden-gems', 'Our Gallery - Top 10 Hidden Gems')">
+      <div class="card-content">
+        <h3>Heritage Places of India</h3>
+        <p>Heritage - The Pride of India.</p>
+      </div>
+    </div>
+    <div class="card" onclick="showCategory('monthly-places', 'Our Gallery - 12 Places to Visit Month-Wise')">
+      <div class="card-content">
+        <h3>12 Places to Visit Each Month</h3>
+        <p>Discover month-wise must-visit places.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Individual Cards Containers (hidden by default) -->
+  <div class="card-container" id="hidden-gems" style="display:none;"></div>
+  <div class="card-container" id="monthly-places" style="display:none;"></div>
+  <!-- Monthly Place Info Card -->
+  <div id="placeCard" class="place-card hidden">
+    <div>
+      <img id="cardImg" src="">
+      <div class="card-content">
+        <h2 id="cardTitle"></h2>
+        <p id="cardDesc"></p>
+        <p id="cardBest"></p>
+
+        <h3>🍴 Famous Food</h3>
+        <p id="cardFood"></p>
+
+        <h3>⭐ Speciality</h3>
+        <p id="cardSpecial"></p>
+
+        <h3>📅 3 Day Itinerary</h3>
+        <p id="cardDay1"></p>
+        <p id="cardDay2"></p>
+        <p id="cardDay3"></p>
+      </div>
+    </div>
+  </div>
+  <button class="back-btn" id="back-btn" style="display:none;" onclick="backToFeatures()">Back</button>
+
+  <script>
+    // ===== Data =====
+
+    const hiddenGems = [
+      { name: "Jaipur, Rajasthan", desc: "The Pink City, famous for majestic forts, palaces, and vibrant culture.", img: "videos/top1.jpg" },
+      { name: "Varanasi, Uttar Pradesh", desc: "Spiritual city on the banks of the Ganges, known for ghats and rituals.", img: "videos/top2.jpg" },
+      { name: "Hampi, Karnataka", desc: "Ancient city with stunning ruins and architectural marvels.", img: "videos/top3.jpg" },
+      { name: "Mandu, Madhya Pradesh", desc: "Historic fort city with scenic ruins and romantic landscapes.", img: "videos/top4.jpg" },
+      { name: "Rishikesh, Uttarakhand", desc: "Yoga capital of the world and adventure hub for river rafting.", img: "videos/top5.jpg" },
+      { name: "Mandarmani, West Bengal", desc: "Serene beach destination perfect for relaxing and water sports.", img: "videos/top6.jpg" },
+      { name: "Sleeping Elephant Hill ,Bhongir", desc: "a natural rock formation that resembles a resting elephant when viewed from the west.", img: "videos/top7.jpg" },
+      { name: "Padmanabhaswamy Temple ,Thiruvananthapuram", desc: "a historic Vishnu temple in Thiruvananthapuram, known for its Dravidian architecture and hidden treasures.", img: "videos/top8.jpg" },
+      { name: "Tirumala Venkateswara Temple,Tirupati", desc: "a famous Hindu temple dedicated to Lord Venkateswara.", img: "videos/top9.webp" },
+      { name: "Gateway of India, Maharashtra", desc: "an iconic arch monument built to commemorate the visit of King George V, overlooking the Arabian Sea.", img: "videos/top10.jpg" },
+    ];
+
+    const monthlyPlaces = [
+      { month: "January", place: "Bhangarh, Rajasthan", img: "videos/bhangarh raj.webp" },
+      { month: "February", place: "Moodbidri, Karnataka", img: "videos/moodbidri feb.jpg" },
+      { month: "March", place: "Chopta, Uttarakhand", img: "videos/chopta-valley.webp" },
+      { month: "April", place: "Chail, Himachal Pradesh", img: "videos/chail march.jpg" },
+      { month: "May", place: "Hemis, Leh", img: "videos/hemis.jpg" },
+      { month: "June", place: "Mawlynnong, Meghalaya", img: "videos/meghalaya.jpg" },
+      { month: "July", place: "Majuli, Assam", img: "videos/Majuli.jpg" },
+      { month: "August", place: "Ziro, Arunachal Pradesh", img: "videos/ziro.jpg" },
+      { month: "September", place: "Tawang, Arunachal Pradesh", img: "videos/tawang.jpg" },
+      { month: "October", place: "Ponmudi, Kerala", img: "videos/Ponmudi.jpg" },
+      { month: "November", place: "Munnar ,Kerala", img: "videos/munnar.jpg" },
+      { month: "December", place: "Murdeshwar , Karnataka", img: "videos/Murudeshwar-Beach-4.jpg" },
+    ];
+
+    const placeInfo = {
+
+      // MONTHLY PLACES
+      "Bhangarh, Rajasthan": {
+        desc: "Famous haunted fort surrounded by Aravalli hills.",
+        best: "Best for mystery & history lovers.",
+        food: "Dal Baati Churma",
+        special: "India's most haunted fort",
+        day1: "Explore Bhangarh Fort",
+        day2: "Visit Sariska Tiger Reserve",
+        day3: "Explore Alwar city"
+      },
+
+      "Moodbidri, Karnataka": {
+        desc: "Jain Kashi of South India.",
+        best: "Heritage lovers",
+        food: "Neer Dosa",
+        special: "1000 Pillar Jain Temple",
+        day1: "Visit Jain temples",
+        day2: "Explore forests",
+        day3: "Local markets"
+      },
+
+      "Chopta, Uttarakhand": {
+        desc: "Mini Switzerland of India.",
+        best: "Trekking",
+        food: "Maggi & Garhwali food",
+        special: "Tungnath Trek",
+        day1: "Trek Tungnath",
+        day2: "Deoria Tal",
+        day3: "Camping"
+      },
+
+      "Chail, Himachal Pradesh": {
+        desc: "Peaceful hill station.",
+        best: "Summer escape",
+        food: "Siddu",
+        special: "World's highest cricket ground",
+        day1: "Chail Palace",
+        day2: "Wildlife Sanctuary",
+        day3: "Kali Temple"
+      },
+
+      "Munnar ,Kerala": {
+        desc: "Tea gardens & misty hills.",
+        best: "Romantic trip",
+        food: "Kerala Sadya",
+        special: "Tea plantations",
+        day1: "Tea Museum",
+        day2: "Mattupetty Dam",
+        day3: "Echo Point"
+      },
+
+      "Hemis, Leh": {
+        desc: "High-altitude monasteries & Himalayan landscapes.",
+        best: "Adventure & spiritual trip",
+        food: "Thukpa, Momos, Butter Tea",
+        special: "Monasteries & Pangong Lake",
+        day1: "Visit Hemis Monastery, Thiksey Monastery & Shanti Stupa",
+        day2: "Excursion to Pangong Lake",
+        day3: "Nature walk at Hemis National Park & visit Stok Palace"
+      },
+      "Mawlynnong, Meghalaya": {
+        desc: "Asia’s cleanest village surrounded by lush greenery and living root bridges.",
+        best: "Nature & eco tourism trip",
+        food: "Jadoh, Tungrymbai, Bamboo Shoot dishes",
+        special: "Living Root Bridges & Dawki River",
+        day1: "Explore Mawlynnong Village & visit Sky View Point Mawlynnong",
+        day2: "Visit Living Root Bridge Riwai & nearby villages",
+        day3: "Day trip to Dawki River & Umngot River"
+      },
+      "Majuli, Assam": {
+        desc: "World’s largest river island known for its vibrant culture, Satras, and scenic Brahmaputra landscapes.",
+        best: "Cultural & offbeat nature trip",
+        food: "Assamese Thali, Fish Tenga, Pitha",
+        special: "Satras (Vaishnavite monasteries) & mask-making traditions",
+        day1: "Explore Majuli Island villages & sunset at Brahmaputra River",
+        day2: "Visit Kamalabari Satra and Auniati Satra",
+        day3: "Explore Dakhinpat Satra & traditional mask-making villages"
+      },
+      "Ziro, Arunachal Pradesh": {
+        desc: "A serene valley of rice fields and pine forests, home to the unique Apatani tribal culture.",
+        best: "Nature, culture & peaceful retreat",
+        food: "Thukpa, Bamboo Shoot Pork, Apong (rice beer)",
+        special: "Apatani tribe & Ziro Music Festival",
+        day1: "Explore Ziro Valley villages & paddy fields",
+        day2: "Visit Talley Valley Wildlife Sanctuary for trekking & nature",
+        day3: "Explore Hong Village & Pine Grove Ziro"
+      },
+
+      "Tawang, Arunachal Pradesh": {
+        desc: "A breathtaking Himalayan town known for monasteries, snow-capped mountains, and stunning high-altitude lakes.",
+        best: "Snow, mountains & spiritual trip",
+        food: "Thukpa, Momos, Butter Tea",
+        special: "Monasteries & high-altitude passes",
+        day1: "Visit Tawang Monastery & Tawang War Memorial",
+        day2: "Excursion to Sela Pass & Sangestar Lake (Madhuri Lake)",
+        day3: "Explore Bum La Pass & local markets"
+      },
+      "Ponmudi, Kerala": {
+        desc: "A scenic hill station near Thiruvananthapuram known for winding roads, misty hills, and lush tea gardens.",
+        best: "Weekend nature & hill station trip",
+        food: "Kerala Sadya, Appam & Stew",
+        special: "Golden Valley & mountain viewpoints",
+        day1: "Drive through hill roads & explore Ponmudi Hills viewpoints",
+        day2: "Visit Golden Valley Ponmudi & trek nearby trails",
+        day3: "Explore Peppara Wildlife Sanctuary & return"
+      }
+      ,
+      "Murdeshwar , Karnataka": {
+        desc: "A coastal town famous for its giant Shiva statue, beach views, and temple overlooking the Arabian Sea.",
+        best: "Beach & spiritual getaway",
+        food: "Seafood, Neer Dosa, Fish Curry",
+        special: "World’s second tallest Shiva statue & sea-facing temple",
+        day1: "Visit Murdeshwar Temple & enjoy sunset at Murdeshwar Beach",
+        day2: "Scuba diving & water sports at Netrani Island",
+        day3: "Visit Bhatkal Lighthouse & local markets"
+      },
+
+      // HERITAGE PLACES
+      "Jaipur, Rajasthan": {
+        desc: "The Pink City of India.",
+        best: "Heritage lovers",
+        food: "Dal Baati & Ghewar",
+        special: "Amber Fort & Hawa Mahal",
+        day1: "Amber Fort",
+        day2: "City Palace",
+        day3: "Nahargarh Fort"
+      },
+
+      "Varanasi, Uttar Pradesh": {
+        desc: "Oldest living city.",
+        best: "Spiritual tourism",
+        food: "Kachori Sabzi",
+        special: "Ganga Aarti",
+        day1: "Ghats tour",
+        day2: "Kashi Vishwanath Temple",
+        day3: "Sarnath"
+      },
+
+      "Hampi, Karnataka": {
+        desc: "UNESCO ruins city.",
+        best: "History lovers",
+        food: "South Indian meals",
+        special: "Vijayanagara ruins",
+        day1: "Virupaksha Temple",
+        day2: "Stone Chariot",
+        day3: "Sunrise point"
+      },
+
+      "Gateway of India, Maharashtra": {
+        desc: "Mumbai landmark.",
+        best: "City trip",
+        food: "Vada Pav",
+        special: "Arabian sea view",
+        day1: "Gateway visit",
+        day2: "Marine Drive",
+        day3: "Elephanta caves"
+      },
+      "Mandu, Madhya Pradesh": {
+        desc: "Romantic fort city filled with Afghan architecture, palaces and scenic viewpoints.",
+        best: "History & architecture lovers",
+        food: "Poha Jalebi, Dal Bafla",
+        special: "Jahaz Mahal & Rani Roopmati Pavilion",
+        day1: "Explore Jahaz Mahal, Hindola Mahal and Mandu Fort",
+        day2: "Visit Rani Roopmati Pavilion & Baz Bahadur Palace",
+        day3: "Sunrise at Rewa Kund & local village exploration"
+      },
+
+      "Rishikesh, Uttarakhand": {
+        desc: "Yoga capital of the world and adventure hub on the Ganges.",
+        best: "Adventure & spiritual trip",
+        food: "Aloo Puri, Cafe food, Chotiwala thali",
+        special: "River rafting & Ganga Aarti",
+        day1: "Visit Ram Jhula, Laxman Jhula & attend Ganga Aarti at Triveni Ghat",
+        day2: "River rafting & bungee jumping",
+        day3: "Neer Garh Waterfall trek & Beatles Ashram visit"
+      },
+
+      "Mandarmani, West Bengal": {
+        desc: "Peaceful coastal getaway known for long motorable beach.",
+        best: "Relaxing beach vacation",
+        food: "Fresh seafood & Bengali fish curry",
+        special: "One of India’s longest drivable beaches",
+        day1: "Relax at Mandarmani Beach & sunset walk",
+        day2: "Water sports & visit Tajpur Beach",
+        day3: "Explore local fishing villages & seafood cafes"
+      },
+
+      "Sleeping Elephant Hill ,Bhongir": {
+        desc: "Unique rock formation and historic Bhongir Fort trek near Hyderabad.",
+        best: "Weekend trekking & sunrise views",
+        food: "Hyderabadi Biryani",
+        special: "Rock formation shaped like a sleeping elephant",
+        day1: "Trek to Bhongir Fort & explore fort ruins",
+        day2: "Rock climbing & photography at sunrise point",
+        day3: "Visit nearby Yadadri Temple & local markets"
+      },
+
+      "Padmanabhaswamy Temple ,Thiruvananthapuram": {
+        desc: "One of the richest and most sacred Vishnu temples in the world.",
+        best: "Spiritual & heritage trip",
+        food: "Kerala Sadya, Appam & Stew",
+        special: "Hidden temple treasures & Dravidian architecture",
+        day1: "Visit Padmanabhaswamy Temple & Napier Museum",
+        day2: "Explore Kovalam Beach & Lighthouse",
+        day3: "Visit Poovar Island & local markets"
+      },
+
+      "Tirumala Venkateswara Temple,Tirupati": {
+        desc: "One of the most visited and sacred Hindu pilgrimage sites.",
+        best: "Spiritual pilgrimage",
+        food: "Tirupati Laddu & South Indian meals",
+        special: "Lord Venkateswara temple on Tirumala hills",
+        day1: "Darshan at Tirumala Temple & Akasa Ganga",
+        day2: "Visit Sri Padmavathi Temple & Kapila Theertham",
+        day3: "Explore Talakona Waterfalls & local shopping"
+      }
+
+
+
+    };
+
+
+    function generateCards(containerId, data, isMonthly = false) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = '';
+
+      data.forEach(item => {
+        const card = document.createElement('div');
+        card.classList.add('card');
+
+        const placeName = isMonthly ? item.place : item.name;
+
+        card.innerHTML = `
+      <img src="${item.img}" alt="${placeName}">
+      <div class="card-content">
+        <h3>${isMonthly ? item.month + ' - ' + item.place : item.name}</h3>
+        ${!isMonthly ? `<p>${item.desc}</p>` : ''}
+      </div>
+    `;
+
+        // ⭐ CLICK EVENT FOR BOTH MONTHLY + HERITAGE
+        card.addEventListener("click", () => {
+          const info = placeInfo[placeName];
+
+          // If no data exists, prevent crash
+          if (!info) {
+            alert("Details coming soon ✨");
+            return;
+          }
+
+          document.getElementById("cardImg").src = item.img;
+          document.getElementById("cardTitle").innerText = placeName;
+          document.getElementById("cardDesc").innerText = info.desc;
+          document.getElementById("cardBest").innerText = info.best;
+          document.getElementById("cardFood").innerText = info.food;
+          document.getElementById("cardSpecial").innerText = info.special;
+          document.getElementById("cardDay1").innerText = "Day 1: " + info.day1;
+          document.getElementById("cardDay2").innerText = "Day 2: " + info.day2;
+          document.getElementById("cardDay3").innerText = "Day 3: " + info.day3;
+
+          document.getElementById("placeCard").classList.remove("hidden");
+        });
+
+        container.appendChild(card);
+      });
+    }
+
+    generateCards('hidden-gems', hiddenGems);
+    generateCards('monthly-places', monthlyPlaces, true);
+
+    // ===== Show category on click with dynamic heading =====
+    function showCategory(categoryId, headingText) {
+      document.getElementById('feature-cards').style.display = 'none';
+      document.getElementById(categoryId).style.display = 'grid';
+      document.getElementById('back-btn').style.display = 'block';
+      document.getElementById('main-heading').textContent = headingText;
+    }
+
+    function backToFeatures() {
+      document.getElementById('feature-cards').style.display = 'grid';
+      document.getElementById('hidden-gems').style.display = 'none';
+      document.getElementById('monthly-places').style.display = 'none';
+      document.getElementById('back-btn').style.display = 'none';
+      document.getElementById('main-heading').textContent = 'Our Gallery';
+    }
+    // Close popup when clicking outside the card
+    document.getElementById("placeCard").addEventListener("click", function (e) {
+      if (e.target.id === "placeCard") {
+        this.classList.add("hidden");
+      }
+    });
+
+  </script>
+  <!-- Back Button -->
+  <button class="back-btn" onclick="window.location.href='index.html'">Back to Home</button>
+
+</body>
+
+</html>

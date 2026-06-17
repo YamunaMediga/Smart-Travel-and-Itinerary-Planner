@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Reviews</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 50px;
+    }
+
+    .back-btn {
+      margin-top: 30px;
+      padding: 10px 20px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .back-btn:hover {
+      background-color: #2980b9;
+    }
+
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to bottom, #87ceeb, #f0f8ff);
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    header {
+      width: 100%;
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      color: #2c3e50;
+    }
+
+    .reviews-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      width: 90%;
+      max-width: 1200px;
+      margin: 50px 0;
+    }
+
+    .review-card {
+      background: white;
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .review-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .review-card img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 15px;
+    }
+
+    .review-card h3 {
+      font-size: 1.2rem;
+      color: #34495e;
+      margin-bottom: 10px;
+    }
+
+    .review-card p {
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: #555;
+      flex-grow: 1;
+    }
+
+    .stars {
+      margin-top: 15px;
+      color: #f1c40f;
+      font-size: 1.2rem;
+    }
+
+    .add-review {
+      background: white;
+      padding: 25px;
+      width: 90%;
+      max-width: 600px;
+      border-radius: 15px;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+      margin-top: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .add-review input,
+    .add-review textarea,
+    .add-review select {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .add-review textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .add-review button {
+      padding: 12px;
+      background: #27ae60;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .add-review button:hover {
+      background: #1e8449;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.8);
+      width: 100%;
+      margin-top: auto;
+      font-size: 0.9rem;
+      color: #555;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Customer Reviews</h1>
+  <header>
+    <h1>What Our Travelers Say</h1>
+  </header>
+
+  <!-- Add Review Section -->
+  <div class="add-review">
+    <h2>Add Your Review</h2>
+
+    <input type="text" id="nameInput" placeholder="Your Name" required>
+
+    <textarea id="reviewInput" placeholder="Write your experience..." required></textarea>
+
+    <select id="ratingInput">
+      <option value="★★★★★">★★★★★ - Excellent</option>
+      <option value="★★★★☆">★★★★☆ - Very Good</option>
+      <option value="★★★☆☆">★★★☆☆ - Good</option>
+      <option value="★★☆☆☆">★★☆☆☆ - Average</option>
+      <option value="★☆☆☆☆">★☆☆☆☆ - Poor</option>
+    </select>
+
+    <button type="button" onclick="submitReview()">Submit Review</button>
+  </div>
+  <div class="reviews-container" id="reviewsContainer">
+
+    <div class="review-card">
+
+      <h3>Mallika</h3>
+      <p>"The itinerary was perfect! Every day was planned with care and I discovered hidden gems I would never find on
+        my own. Highly recommended!"</p>
+      <div class="stars">★★★★★</div>
+    </div>
+
+    <div class="review-card">
+
+      <h3>Ravi</h3>
+      <p>"Planning trips has never been easier. The travel planner saved me hours of research, and the suggestions were
+        amazing. Can’t wait for my next trip!"</p>
+      <div class="stars">★★★★★</div>
+    </div>
+
+    <div class="review-card">
+
+      <h3>Jaanu</h3>
+      <p>"Beautiful experience! The recommendations matched my style perfectly. Everything
+        planned was incredible."</p>
+      <div class="stars">★★★★★</div>
+    </div>
+
+    <div class="review-card">
+
+      <h3>Chandu</h3>
+      <p>"I loved the personalized touches in the itinerary. It made my family vacation stress-free and unforgettable.
+        Five stars!"</p>
+      <div class="stars">★★★★★</div>
+    </div>
+
+  </div>
+
+
+  <button class="back-btn" onclick="window.location.href='index.html'">Back to Home</button>
+  <footer>
+    &copy; 2026 SmartVihar Planner. All rights reserved.
+  </footer>
+
+  <script>
+
+    const BASE_URL = "http://localhost:5000";
+
+    async function submitReview() {
+      const name = document.getElementById("nameInput").value.trim();
+      const comment = document.getElementById("reviewInput").value.trim();
+      const ratingText = document.getElementById("ratingInput").value;
+
+      if (!name || !comment) {
+        alert("Please fill all fields 😊");
+        return;
+      }
+
+      const rating = ratingText.length;
+
+      try {
+        const res = await fetch(`${BASE_URL}/api/reviews`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, comment, rating }) // correct fields
+        });
+
+        const data = await res.json();
+
+        // ⭐ THIS IS THE IMPORTANT PART
+        if (!res.ok) {
+          throw new Error(data.error || "Failed to add review");
+        }
+
+        alert("Review added successfully ⭐");
+
+        // clear inputs
+        document.getElementById("nameInput").value = "";
+        document.getElementById("reviewInput").value = "";
+
+      } catch (error) {
+        alert("Database error ❌ " + error.message);
+      }
+    }
+  </script>
+
+
+</body>
+
+</html>
